@@ -1,0 +1,30 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "launch",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/../../Celeste.dll",
+      "cwd": "${workspaceFolder}/../../",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "linux": {
+        "env": {
+          "LD_LIBRARY_PATH": "${workspaceFolder}/../../lib64-linux:"
+        }
+      },
+      "justMyCode": false,
+      "sourceFileMap": {
+        "Snowberry/": "${workspaceFolder}/../Snowberry/",
+        "SnowberryCreature/": "${workspaceFolder}/Source/",
+        "/home/vsts/work/1/s/": "${workspaceFolder}/../../../../everest/"
+      },
+      "requireExactSource": false
+    }
+  ]
+}

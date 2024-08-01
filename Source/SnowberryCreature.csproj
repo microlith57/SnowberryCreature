@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <AssemblyName>SnowberryCreature</AssemblyName>
+        <RootNamespace>Celeste.Mod.SnowberryCreature</RootNamespace>
+        <LangVersion>latest</LangVersion>
+
+        <CelestePrefix Condition="'$(CelestePrefix)' == '' And Exists('..\..\..\Celeste.dll')">..\..\..</CelestePrefix>
+        <CelestePrefix Condition="'$(CelestePrefix)' == ''">lib-stripped</CelestePrefix>
+
+        <SnowberryPrefix Condition="'$(SnowberryPrefix)' == '' And Exists('$(CelestePrefix)\Mods\Snowberry\source\Snowberry.csproj')">$(CelestePrefix)\Mods\Snowberry</SnowberryPrefix>
+    </PropertyGroup>
+
+    <!--Disable "Copy Local" for all references-->
+    <ItemDefinitionGroup>
+        <PackageReference PrivateAssets="all" ExcludeAssets="runtime" />
+        <Reference Private="false" />
+    </ItemDefinitionGroup>
+
+    <ItemGroup>
+        <Reference Include="$(CelestePrefix)\Celeste.dll" Private="false" />
+        <Reference Include="$(CelestePrefix)\MMHOOK_Celeste.dll" Private="false" />
+        <Reference Include="$(CelestePrefix)\FNA.dll" Private="false" />
+    </ItemGroup>
+
+    <Choose>
+        <When Condition="'$(SnowberryPrefix)' != '' And Exists('$(SnowberryPrefix)\source\Snowberry.csproj')">
+            <ItemGroup>
+                <ProjectReference Include="$(SnowberryPrefix)\source\Snowberry.csproj" Private="false" />
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <Reference Include="..\lib\Snowberry.dll" Private="false" />
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="25.0.2" PrivateAssets="all" ExcludeAssets="runtime" />
+        <PackageReference Include="MonoMod.Patcher" Version="25.0.0-prerelease.2" />
+    </ItemGroup>
+
+    <Target Name="CopyFiles" AfterTargets="Build">
+        <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll" DestinationFolder="..\bin" />
+        <Copy SourceFiles="$(OutputPath)\$(AssemblyName).pdb" DestinationFolder="..\bin" />
+    </Target>
+
+    <PropertyGroup>
+        <PathMap>$(MSBuildProjectDirectory)=SnowberryCreature/</PathMap>
+    </PropertyGroup>
+
+</Project>
